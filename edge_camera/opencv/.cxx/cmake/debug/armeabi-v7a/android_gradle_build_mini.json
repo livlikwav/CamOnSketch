@@ -1,0 +1,19 @@
+{
+  "buildFiles": [
+    "C:\\Users\\dhkin\\AppData\\Local\\Android\\Sdk\\ndk\\21.1.6352462\\build\\cmake\\platforms.cmake",
+    "C:\\Users\\dhkin\\AndroidStudioProjects\\edge_camera\\opencv\\libcxx_helper\\CMakeLists.txt",
+    "C:\\Users\\dhkin\\AppData\\Local\\Android\\Sdk\\ndk\\21.1.6352462\\build\\cmake\\android.toolchain.cmake"
+  ],
+  "cleanCommands": [
+    "C:\\Users\\dhkin\\AppData\\Local\\Android\\Sdk\\cmake\\3.10.2.4988404\\bin\\ninja.exe -C \"C:\\Users\\dhkin\\AndroidStudioProjects\\edge_camera\\opencv\\.cxx\\cmake\\debug\\armeabi-v7a\" clean"
+  ],
+  "buildTargetsCommand": "C:\\Users\\dhkin\\AppData\\Local\\Android\\Sdk\\cmake\\3.10.2.4988404\\bin\\ninja.exe  -C \"C:\\Users\\dhkin\\AndroidStudioProjects\\edge_camera\\opencv\\.cxx\\cmake\\debug\\armeabi-v7a\" {LIST_OF_TARGETS_TO_BUILD}",
+  "libraries": {
+    "opencv_jni_shared-Debug-armeabi-v7a": {
+      "artifactName": "opencv_jni_shared",
+      "buildCommand": "C:\\Users\\dhkin\\AppData\\Local\\Android\\Sdk\\cmake\\3.10.2.4988404\\bin\\ninja.exe -C \"C:\\Users\\dhkin\\AndroidStudioProjects\\edge_camera\\opencv\\.cxx\\cmake\\debug\\armeabi-v7a\" opencv_jni_shared",
+      "abi": "armeabi-v7a",
+      "output": "C:\\Users\\dhkin\\AndroidStudioProjects\\edge_camera\\opencv\\.cxx\\cmake\\debug\\armeabi-v7a\\libopencv_jni_shared.a"
+    }
+  }
+}

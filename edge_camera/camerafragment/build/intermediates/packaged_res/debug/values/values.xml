@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <bool name="isTablet">false</bool>
+    <integer name="frontFaceCameraRotationShift">270</integer>
+    <integer name="rearCameraRotationShift">90</integer>
+    <string name="cancel_label">Cancel</string>
+    <string name="ok_label">Ok</string>
+    <string name="preview_controls_cancel">Cancel</string>
+    <string name="preview_controls_confirm">Save</string>
+    <string name="preview_controls_crop">Crop</string>
+    <string name="preview_controls_original_ratio_label">Original</string>
+    <string name="preview_controls_retake">Repeat</string>
+    <string name="settings_photo_quality_title">Photo size</string>
+    <string name="settings_video_quality_title">Video size %s</string>
+    <style name="PreviewButtonsStyle">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:gravity">center_horizontal</item>
+        <item name="android:background">?attr/selectableItemBackground</item>
+        <item name="android:textSize">10sp</item>
+        <item name="android:clickable">true</item>
+        <item name="android:textColor">#fafafa</item>
+    </style>
+</resources>

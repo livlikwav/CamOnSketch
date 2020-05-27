@@ -1,0 +1,3 @@
+C:/Users/dhkin/AndroidStudioProjects/edge_camera/sdk/.cxx/cmake/release/x86/CMakeFiles/opencv_jni_shared.dir
+C:/Users/dhkin/AndroidStudioProjects/edge_camera/sdk/.cxx/cmake/release/x86/CMakeFiles/edit_cache.dir
+C:/Users/dhkin/AndroidStudioProjects/edge_camera/sdk/.cxx/cmake/release/x86/CMakeFiles/rebuild_cache.dir

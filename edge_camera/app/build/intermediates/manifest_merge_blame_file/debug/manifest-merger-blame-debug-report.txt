@@ -1,0 +1,84 @@
+1<?xml version="1.0" encoding="utf-8"?>
+2<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+3    package="com.example.edge_camera"
+4    android:versionCode="1"
+5    android:versionName="1.0" >
+6
+7    <uses-sdk
+8        android:minSdkVersion="21"
+8-->C:\Users\dhkin\AndroidStudioProjects\edge_camera\app\src\main\AndroidManifest.xml
+9        android:targetSdkVersion="25" />
+9-->C:\Users\dhkin\AndroidStudioProjects\edge_camera\app\src\main\AndroidManifest.xml
+10
+11    <uses-permission android:name="android.permission.CAMERA" />
+11-->C:\Users\dhkin\AndroidStudioProjects\edge_camera\app\src\main\AndroidManifest.xml:5:5-65
+11-->C:\Users\dhkin\AndroidStudioProjects\edge_camera\app\src\main\AndroidManifest.xml:5:22-62
+12    <uses-permission android:name="android.permission.FLASHLIGHT" />
+12-->C:\Users\dhkin\AndroidStudioProjects\edge_camera\app\src\main\AndroidManifest.xml:6:5-69
+12-->C:\Users\dhkin\AndroidStudioProjects\edge_camera\app\src\main\AndroidManifest.xml:6:22-66
+13    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+13-->C:\Users\dhkin\AndroidStudioProjects\edge_camera\app\src\main\AndroidManifest.xml:7:5-71
+13-->C:\Users\dhkin\AndroidStudioProjects\edge_camera\app\src\main\AndroidManifest.xml:7:22-68
+14    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+14-->C:\Users\dhkin\AndroidStudioProjects\edge_camera\app\src\main\AndroidManifest.xml:8:5-79
+14-->C:\Users\dhkin\AndroidStudioProjects\edge_camera\app\src\main\AndroidManifest.xml:8:22-77
+15    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+15-->C:\Users\dhkin\AndroidStudioProjects\edge_camera\app\src\main\AndroidManifest.xml:9:5-81
+15-->C:\Users\dhkin\AndroidStudioProjects\edge_camera\app\src\main\AndroidManifest.xml:9:22-78
+16
+17    <application
+17-->C:\Users\dhkin\AndroidStudioProjects\edge_camera\app\src\main\AndroidManifest.xml:11:5-35:19
+18        android:allowBackup="true"
+18-->C:\Users\dhkin\AndroidStudioProjects\edge_camera\app\src\main\AndroidManifest.xml:12:9-35
+19        android:debuggable="true"
+20        android:icon="@mipmap/ic_launcher"
+20-->C:\Users\dhkin\AndroidStudioProjects\edge_camera\app\src\main\AndroidManifest.xml:13:9-43
+21        android:label="@string/app_name"
+21-->C:\Users\dhkin\AndroidStudioProjects\edge_camera\app\src\main\AndroidManifest.xml:14:9-41
+22        android:roundIcon="@mipmap/ic_launcher_round"
+22-->C:\Users\dhkin\AndroidStudioProjects\edge_camera\app\src\main\AndroidManifest.xml:15:9-54
+23        android:supportsRtl="true"
+23-->C:\Users\dhkin\AndroidStudioProjects\edge_camera\app\src\main\AndroidManifest.xml:16:9-35
+24        android:testOnly="true"
+25        android:theme="@style/AppTheme" >
+25-->C:\Users\dhkin\AndroidStudioProjects\edge_camera\app\src\main\AndroidManifest.xml:17:9-40
+26        <activity android:name="com.example.edge_camera.MainActivity" >
+26-->C:\Users\dhkin\AndroidStudioProjects\edge_camera\app\src\main\AndroidManifest.xml:18:9-24:20
+26-->C:\Users\dhkin\AndroidStudioProjects\edge_camera\app\src\main\AndroidManifest.xml:18:19-47
+27            <intent-filter>
+27-->C:\Users\dhkin\AndroidStudioProjects\edge_camera\app\src\main\AndroidManifest.xml:19:13-23:29
+28                <action android:name="android.intent.action.MAIN" />
+28-->C:\Users\dhkin\AndroidStudioProjects\edge_camera\app\src\main\AndroidManifest.xml:20:17-69
+28-->C:\Users\dhkin\AndroidStudioProjects\edge_camera\app\src\main\AndroidManifest.xml:20:25-66
+29
+30                <category android:name="android.intent.category.LAUNCHER" />
+30-->C:\Users\dhkin\AndroidStudioProjects\edge_camera\app\src\main\AndroidManifest.xml:22:17-77
+30-->C:\Users\dhkin\AndroidStudioProjects\edge_camera\app\src\main\AndroidManifest.xml:22:27-74
+31            </intent-filter>
+32        </activity>
+33        <activity
+33-->C:\Users\dhkin\AndroidStudioProjects\edge_camera\app\src\main\AndroidManifest.xml:25:9-28:20
+34            android:name="com.example.edge_camera.ImageActivity"
+34-->C:\Users\dhkin\AndroidStudioProjects\edge_camera\app\src\main\AndroidManifest.xml:25:19-48
+35            android:screenOrientation="fullSensor" >
+35-->C:\Users\dhkin\AndroidStudioProjects\edge_camera\app\src\main\AndroidManifest.xml:26:13-51
+36        </activity>
+37        <activity
+37-->C:\Users\dhkin\AndroidStudioProjects\edge_camera\app\src\main\AndroidManifest.xml:29:9-34:20
+38            android:name="com.example.edge_camera.CameraFragmentMainActivity"
+38-->C:\Users\dhkin\AndroidStudioProjects\edge_camera\app\src\main\AndroidManifest.xml:30:13-78
+39            android:screenOrientation="portrait"
+39-->C:\Users\dhkin\AndroidStudioProjects\edge_camera\app\src\main\AndroidManifest.xml:31:13-49
+40            android:theme="@style/ThemeFullscreen" >
+40-->C:\Users\dhkin\AndroidStudioProjects\edge_camera\app\src\main\AndroidManifest.xml:32:13-51
+41        </activity>
+42
+43        <meta-data
+43-->[com.android.support:appcompat-v7:25.4.0] C:\Users\dhkin\.gradle\caches\transforms-2\files-2.1\af232f16954029972ab920453cf54db7\appcompat-v7-25.4.0\AndroidManifest.xml:26:9-28:38
+44            android:name="android.support.VERSION"
+44-->[com.android.support:appcompat-v7:25.4.0] C:\Users\dhkin\.gradle\caches\transforms-2\files-2.1\af232f16954029972ab920453cf54db7\appcompat-v7-25.4.0\AndroidManifest.xml:27:13-51
+45            android:value="25.4.0" />
+45-->[com.android.support:appcompat-v7:25.4.0] C:\Users\dhkin\.gradle\caches\transforms-2\files-2.1\af232f16954029972ab920453cf54db7\appcompat-v7-25.4.0\AndroidManifest.xml:28:13-35
+46    </application>
+47
+48</manifest>
