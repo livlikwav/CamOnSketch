@@ -10,8 +10,16 @@
 
 ## Topic 1
   1. 다운 후 두 파일을 C:\Users\ {이름} \AndroidStudioProjects 으로 복사합니다.
-  2. https://brunch.co.kr/@mystoryg/76#comment 을 보며 ndk와 cmake를 설치합니다.
-  3. 안될수도 있으니 비난은 속으로만 해주십쇼
+  2. https://brunch.co.kr/@mystoryg/76#comment 을 보며 ndk와 cmake를 설치합니다.되도록 ndk : 21.1.6352462으로 부탁드립니다.
+  3. gradle sciprts/local.properties 에 ndk.dir=C\:\\Users\\dhkin\\AppData\\Local\\Android\\Sdk\\ndk\\21.1.6352462
+  4. app/src/main/cpp/CmakeLists.txt 의 경로 확인
+  set(pathPROJECT C:/Users/dhkin/AndroidStudioProjects/edge_camera)
+  set(pathOPENCV C:/Users/dhkin/AndroidStudioProjects/opencv_and_sdk/sdk) 
+  set(pathLIBOPENCV_JAVA C:/Users/dhkin/AndroidStudioProjects/opencv_and_sdk/sdk/native/libs/${ANDROID_ABI}/libopencv_java4.so)
+  복붙 후 Users뒤 부분만 바꾸면 됩니다.
+  5. ImageActivity의 41번째줄 public native void detectEdgeJNI(long inputImage, long outputImage, int th1, int th2) 오류뜨는지 확인
+  오류가 뜨면 그 오류로 들어가서 새로 만들어진 함수에 위에 있던 함수 내용부분 복사붙여넣기
+  6. 안될수도 있으니 비난은 속으로만 해주십쇼
 ## Topic 2
   
 # Team
