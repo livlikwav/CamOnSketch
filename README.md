@@ -9,7 +9,7 @@
 #  Table of Contents
 
 ## Topic 1
-  1. 다운 후 두 파일을 C:\Users\{이름}\AndroidStudioProjects 으로 복사합니다.
+  1. 다운 후 두 파일을 C:\Users\ {이름} \AndroidStudioProjects 으로 복사합니다.
   2. https://brunch.co.kr/@mystoryg/76#comment 을 보며 ndk와 cmake를 설치합니다.
   3. 안될수도 있으니 비난은 속으로만 해주십쇼
 ## Topic 2
