@@ -21,7 +21,7 @@
 3.  ndk path 관련 오류 뜰거임
     1.  local.properties 직접 수정 x (gradle이 관리하는 파일)
     2.  MenuBar > File > Project Structure > SDK Location, Android NDK Location 로 직접 NDK 21.1.6352462 폴더 선택
-    3.  ![참고 링크](https://stackoverflow.com/questions/39159357/how-to-set-android-ndk-home-so-that-android-studio-does-not-ask-for-ndk-location)
+    3.  [참고 링크](https://stackoverflow.com/questions/39159357/how-to-set-android-ndk-home-so-that-android-studio-does-not-ask-for-ndk-location)
 4.  ndk path 설정 후에는 다시 gradle이 build 정상적으로 할거임
 5.  app/src/main/cpp/CmakeLists.txt 로 들어감
 6.  pathPROJECT에 자신의 SDK 주소를 입력함
