@@ -2,6 +2,7 @@ package com.example.edge_camera;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
@@ -17,9 +18,11 @@ import android.widget.ToggleButton;
 
 import com.github.florent37.camerafragment.CameraFragment;
 import com.github.florent37.camerafragment.CameraFragmentApi;
+import com.github.florent37.camerafragment.PreviewActivity;
 import com.github.florent37.camerafragment.configuration.Configuration;
 import com.github.florent37.camerafragment.listeners.CameraFragmentControlsAdapter;
 import com.github.florent37.camerafragment.listeners.CameraFragmentResultAdapter;
+import com.github.florent37.camerafragment.listeners.CameraFragmentResultListener;
 import com.github.florent37.camerafragment.listeners.CameraFragmentStateAdapter;
 import com.github.florent37.camerafragment.listeners.CameraFragmentVideoRecordTextAdapter;
 import com.github.florent37.camerafragment.widgets.CameraSettingsView;
@@ -29,8 +32,11 @@ import com.github.florent37.camerafragment.widgets.MediaActionSwitchView;
 import com.github.florent37.camerafragment.widgets.RecordButton;
 
 import java.io.File;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -118,8 +124,8 @@ public class CameraFragmentMainActivity extends AppCompatActivity {
                                                            Toast.makeText(getBaseContext(), "onPhotoTaken " + filePath, Toast.LENGTH_SHORT).show();
                                                        }
                                                    },
-                    "/storage/self/primary",
-                    "photo0");
+                    "/storage/self/primary/edge_camera",
+                    "photo_"+generateTimestamp());
         }
     }
 
@@ -183,19 +189,22 @@ public class CameraFragmentMainActivity extends AppCompatActivity {
                 .commitAllowingStateLoss();
 
         if (cameraFragment != null) {
-            //cameraFragment.setResultListener(new CameraFragmentResultListener() {
-            //    @Override
-            //    public void onVideoRecorded(String filePath) {
-            //        Intent intent = PreviewActivity.newIntentVideo(CameraFragmentMainActivity.this, filePath);
-            //        startActivityForResult(intent, REQUEST_PREVIEW_CODE);
-            //    }
-//
-            //    @Override
-            //    public void onPhotoTaken(byte[] bytes, String filePath) {
-            //        Intent intent = PreviewActivity.newIntentPhoto(CameraFragmentMainActivity.this, filePath);
-            //        startActivityForResult(intent, REQUEST_PREVIEW_CODE);
-            //    }
-            //});
+            cameraFragment.setResultListener(new CameraFragmentResultListener() {
+                @Override
+                public void onVideoRecorded(String filePath) {
+                    Intent intent = PreviewActivity.newIntentVideo(CameraFragmentMainActivity.this, filePath);
+                    startActivityForResult(intent, REQUEST_PREVIEW_CODE);
+                }
+
+                @Override
+                public void onPhotoTaken(byte[] bytes, String filePath) {
+                    Intent intent = PreviewActivity.newIntentPhoto(CameraFragmentMainActivity.this, filePath);
+                    startActivityForResult(intent, REQUEST_PREVIEW_CODE);
+                    MediaScanner scanner = MediaScanner.newInstance(CameraFragmentMainActivity.this);
+                    scanner.mediaScanning("/storage/self/primary/edge_camera");
+
+                }
+            });
 
             cameraFragment.setStateListener(new CameraFragmentStateAdapter() {
 
@@ -335,5 +344,10 @@ public class CameraFragmentMainActivity extends AppCompatActivity {
 
     private CameraFragmentApi getCameraFragment() {
         return (CameraFragmentApi) getSupportFragmentManager().findFragmentByTag(FRAGMENT_TAG);
+    }
+
+    private static String generateTimestamp() {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy_MM_dd_HH_mm_ss_SSS", Locale.US);
+        return sdf.format(new Date());
     }
 }

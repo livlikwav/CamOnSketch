@@ -32,6 +32,11 @@
             android:theme="@style/ThemeFullscreen" >
 
         </activity>
+
+        <activity
+            android:name="com.github.florent37.camerafragment.PreviewActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/ThemeFullscreen" />
     </application>
 
 </manifest>

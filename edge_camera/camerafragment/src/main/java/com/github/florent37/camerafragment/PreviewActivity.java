@@ -53,7 +53,6 @@ public class PreviewActivity extends AppCompatActivity implements View.OnClickLi
     private SurfaceView surfaceView;
     private FrameLayout photoPreviewContainer;
     private ImageView imagePreview;
-    private ImageView overlay;
     private ViewGroup buttonPanel;
     private AspectFrameLayout videoPreviewContainer;
     private View cropMediaAction;
@@ -183,7 +182,6 @@ public class PreviewActivity extends AppCompatActivity implements View.OnClickLi
     private void displayImage() {
         videoPreviewContainer.setVisibility(View.GONE);
         surfaceView.setVisibility(View.GONE);
-        overlay.setVisibility(View.GONE);
         showImagePreview();
         ratioChanger.setText(ratioLabels[currentRatioIndex]);
     }
