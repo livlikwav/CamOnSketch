@@ -5,9 +5,11 @@
 
 cmake_minimum_required(VERSION 3.4.1)
 
-set(pathPROJECT C:/Users/Park/AndroidStudioProjects/edge_camera)
-set(pathOPENCV C:/Users/Park/AndroidStudioProjects/opencv_and_sdk/sdk)
-set(pathLIBOPENCV_JAVA C:/Users/Park/AndroidStudioProjects/opencv_and_sdk/sdk/native/libs/${ANDROID_ABI}/libopencv_java4.so)
+# 각자의 경로에 맞게 수정 (주의: PATH에 Whitespaces 존재할 시 문의)
+set(pathPROJECT C:/CamOnSketch/edge_camera)
+
+set(pathOPENCV ${pathPROJECT}/opencv)
+set(pathLIBOPENCV_JAVA ${pathOPENCV}/native/libs/${ANDROID_ABI}/libopencv_java4.so)
 
 set(CMAKE_VERBOSE_MAKEFILE on)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=gnu++11")
