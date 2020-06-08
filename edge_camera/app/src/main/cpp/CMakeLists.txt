@@ -5,9 +5,9 @@
 
 cmake_minimum_required(VERSION 3.4.1)
 
-set(pathPROJECT C:/Users/dhkin/AndroidStudioProjects/edge)
-set(pathOPENCV C:/Users/dhkin/AndroidStudioProjects/opencv_and_sdk/sdk)
-set(pathLIBOPENCV_JAVA C:/Users/dhkin/AndroidStudioProjects/opencv_and_sdk/sdk/native/libs/${ANDROID_ABI}/libopencv_java4.so)
+set(pathPROJECT C:/Users/Park/AndroidStudioProjects/edge_camera)
+set(pathOPENCV C:/Users/Park/AndroidStudioProjects/opencv_and_sdk/sdk)
+set(pathLIBOPENCV_JAVA C:/Users/Park/AndroidStudioProjects/opencv_and_sdk/sdk/native/libs/${ANDROID_ABI}/libopencv_java4.so)
 
 set(CMAKE_VERBOSE_MAKEFILE on)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=gnu++11")

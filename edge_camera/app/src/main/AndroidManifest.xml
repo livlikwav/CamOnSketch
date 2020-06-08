@@ -7,6 +7,7 @@
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
@@ -22,16 +23,22 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity android:name=".ImageActivity"
             android:screenOrientation="fullSensor">
-
         </activity>
+
         <activity
             android:name="com.example.edge_camera.CameraFragmentMainActivity"
-            android:screenOrientation="portrait"
+            android:screenOrientation="fullSensor"
             android:theme="@style/ThemeFullscreen" >
-
         </activity>
+
+        <activity android:name=".FlickrActivity" />
+        <activity android:name=".ShowImage" />
+        <activity android:name=".ShowGps" />
+
+
     </application>
 
 </manifest>

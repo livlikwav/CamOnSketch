@@ -31,5 +31,15 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent) ;
             }
         });
+
+        Button button3 = (Button) findViewById(R.id.button3) ;
+        button3.setOnClickListener(new Button.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, FlickrActivity.class) ;
+
+                startActivity(intent);
+            }
+        });
     }
 }
