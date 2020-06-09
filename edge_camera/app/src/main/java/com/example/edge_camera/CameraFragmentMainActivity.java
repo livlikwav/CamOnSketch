@@ -8,6 +8,7 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.Matrix;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -84,12 +85,25 @@ public class CameraFragmentMainActivity extends AppCompatActivity {
 
 
 
+    private Bitmap imgRotate(Bitmap bmp){
+        int width = bmp.getWidth();
+        int height = bmp.getHeight();
+
+        Matrix matrix = new Matrix();
+        matrix.postRotate(90);
+
+        Bitmap resizedBitmap = Bitmap.createBitmap(bmp, 0, 0, width, height, matrix, true);
+        bmp.recycle();
+
+        return resizedBitmap;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.camerafragment_activity_main);
-//        this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
+
 
 
 //        byte[] byteArray = getIntent().getByteArrayExtra("edgeimage");
@@ -115,8 +129,13 @@ public class CameraFragmentMainActivity extends AppCompatActivity {
 //            //하얀색 엣지
           if(pixels[i] != Color.WHITE)
                 pixels[i]=Color.TRANSPARENT;
+
         }
-        Bitmap edgeImage  = Bitmap.createBitmap(pixels, 0, sW, sW, sH, Bitmap.Config.ARGB_8888);
+       Bitmap edgeImage  = Bitmap.createBitmap(pixels, 0, sW, sW, sH, Bitmap.Config.ARGB_8888);
+
+        if(edgeImage.getWidth()> edgeImage.getHeight()) {
+            edgeImage = imgRotate(edgeImage);
+        }
 
 
         overlayimage_view = (ImageView)findViewById(R.id.Overlayed_image);
