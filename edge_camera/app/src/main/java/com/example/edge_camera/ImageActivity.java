@@ -34,6 +34,7 @@ public class ImageActivity extends AppCompatActivity {
     private static final int REQ_CODE_SELECT_IMAGE = 100;
     private Bitmap mInputImage;
     private Bitmap mOriginalImage;
+    private Bitmap b;
     private ImageView mImageView;
     private ImageView mEdgeImageView;
     private boolean mIsOpenCVReady = false;
@@ -45,24 +46,14 @@ public class ImageActivity extends AppCompatActivity {
         System.loadLibrary("native-lib");
     }
 
-    public void detectEdgeJNI() {
-        Mat src = new Mat();
-        Utils.bitmapToMat(mInputImage, src);
-        Mat edge = new Mat();
-        Imgproc.Canny(src, edge, 100, 150);
-        Utils.matToBitmap(edge, mInputImage);
-        src.release();
-        edge.release();
-        mEdgeImageView.setImageBitmap(mInputImage);
-    }
-
     public void detectEdgeUsingJNI() {
+        System.out.println("k1111");
         if (!mIsOpenCVReady) {
             return;
         }
         Mat src = new Mat();
         Utils.bitmapToMat(mInputImage, src);
-        mImageView.setImageBitmap(mOriginalImage);
+        //mImageView.setImageBitmap(mOriginalImage);
         Mat edge = new Mat();
         detectEdgeJNI(src.getNativeObjAddr(), edge.getNativeObjAddr(), 100, 150);
         Utils.matToBitmap(edge, mInputImage);
@@ -74,7 +65,7 @@ public class ImageActivity extends AppCompatActivity {
         int[] pixels = new int[size];
 
         mInputImage.getPixels(pixels,0,sW,0,0,sW,sH);
-
+        System.out.println("22222");
         for(int i=0; i<size; i++){
             int color = pixels[i];
 
@@ -82,7 +73,6 @@ public class ImageActivity extends AppCompatActivity {
             int g = (color>>8) & 0xFF; //green /256
             int b = (color) & 0xFF; //blue
             int y;
-
 
             //하얀색 엣지
             if(r==255 && g==255 && b==255){
@@ -92,9 +82,10 @@ public class ImageActivity extends AppCompatActivity {
                 pixels[i]=Color.TRANSPARENT;
             }
         }
-
-        Bitmap b  = Bitmap.createBitmap(pixels, 0, sW, sW, sH, Bitmap.Config.ARGB_8888);
+        System.out.println("kkkkk");
+        b  = Bitmap.createBitmap(pixels, 0, sW, sW, sH, Bitmap.Config.ARGB_8888);
         mEdgeImageView.setImageBitmap(b);
+        //mEdgeImageView.setImageBitmap(b);
 
         //ColorFilter filter = new PorterDuffColorFilter(Color.YELLOW, PorterDuff.Mode.OVERLAY);
         //mEdgeImageView.setColorFilter(filter); //색깔 입히기
@@ -108,6 +99,11 @@ public class ImageActivity extends AppCompatActivity {
         setContentView(R.layout.activity_image);
         mImageView = (ImageView) findViewById(R.id.origin_iv);
         mEdgeImageView = (ImageView) findViewById(R.id.edge_iv);
+
+        byte[] byteArray = getIntent().getByteArrayExtra("image");
+        mInputImage = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
+
+        detectEdgeUsingJNI();
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (!hasPermissions(PERMISSIONS)) {

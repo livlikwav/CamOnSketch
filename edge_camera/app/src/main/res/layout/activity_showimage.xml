@@ -7,10 +7,16 @@
     android:orientation="vertical">
 
     <Button
-        android:id="@+id/btn_gps"
+    android:id="@+id/btn_gps"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:text="장소탐색"/>
+
+    <Button
+        android:id="@+id/btn_edge"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="장소탐색"/>
+        android:text="엣지검출"/>
 
     <ImageView
         android:id="@+id/imageview_showimage_large"
