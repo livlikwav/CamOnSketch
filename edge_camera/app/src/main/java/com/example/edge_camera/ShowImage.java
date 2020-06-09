@@ -16,6 +16,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.BufferedInputStream;
 import java.io.InputStream;
@@ -34,6 +35,7 @@ public class ShowImage extends AppCompatActivity {
 
     Bundle bundle;
     String largePhotoURL;
+    Bitmap originbitmap;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,7 +47,7 @@ public class ShowImage extends AppCompatActivity {
         imageviewLargePhoto = (ImageView) findViewById(R.id.imageview_showimage_large);
         Button buttonBack = (Button) findViewById(R.id.button_showimage_back);
         Button buttonGps = (Button) findViewById(R.id.btn_gps);
-
+        Button buttonEdge = (Button) findViewById(R.id.btn_edge);
 
         buttonBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -61,6 +63,8 @@ public class ShowImage extends AppCompatActivity {
         String secret = bundle.getString("secret");
         String server = bundle.getString("server");
         String farm = bundle.getString("farm");
+
+
 
         buttonGps.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -81,6 +85,24 @@ public class ShowImage extends AppCompatActivity {
                 .execute(largePhotoURL);
         System.out.println(largePhotoURL);
 
+        buttonEdge.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ShowImage.this, ImageActivity.class);
+
+                ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                float scale = (float) (1024/(float)originbitmap.getWidth());
+                int image_w = (int) (originbitmap.getWidth() * scale);
+                int image_h = (int) (originbitmap.getHeight() * scale);
+                Bitmap resize = Bitmap.createScaledBitmap(originbitmap, image_w, image_h, true);
+                resize.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+                byte[] byteArray = stream.toByteArray();
+
+                intent.putExtra("image", byteArray);
+
+                startActivity(intent);
+            }
+        });
 
     }
 
@@ -107,10 +129,13 @@ public class ShowImage extends AppCompatActivity {
 
             try {
                 mBitmap = BitmapFactory.decodeStream((InputStream) new URL(args[0]).getContent());
+
             } catch (Exception e) {
                 e.printStackTrace();
             }
 
+
+            originbitmap = mBitmap;
             return mBitmap;
         }
 
