@@ -8,6 +8,8 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -28,6 +30,7 @@ import java.lang.ref.WeakReference;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
@@ -50,9 +53,12 @@ public class FlickrActivity extends AppCompatActivity {
     private String REQUEST_URL = SEARCH_URL + API_KEY + PER_PAGE + SORT + FORMAT + CONTECT_TYPE + HAS_GEO + SEARCH_TEXT;
 
     private ProgressDialog progressDialog = null;
-    private SimpleAdapter adapter = null;
-    private List<HashMap<String,String>> photoinfoList = null;
+//    private SimpleAdapter adapter = null;
+//    private List<HashMap<String,String>> photoinfoList = null;
     private EditText searchKeyword = null;
+
+    private RvAdapter adapter = null;
+    private ArrayList<CvModel> photoURIList = null;
 
 
 
@@ -62,16 +68,44 @@ public class FlickrActivity extends AppCompatActivity {
         setContentView(R.layout.activity_flickr);
 
         Button buttonRequestJSON = (Button)findViewById(R.id.button_main_requestjson);
-        ListView listviewPhtoList = (ListView)findViewById(R.id.listview_main_list);
+//        ListView listviewPhtoList = (ListView)findViewById(R.id.listview_main_list);
         searchKeyword = (EditText)findViewById(R.id.edittext_main_searchkeyword);
 
-        photoinfoList = new ArrayList<HashMap<String,String>>();
 
-        String[] from = new String[]{"id", "title","secret","server","farm"};
-        int[] to = new int[] {R.id.textview_main_listviewdata1, R.id.textview_main_listviewdata2,
-                R.id.textview_main_listviewdata3, R.id.textview_main_listviewdata4, R.id.textview_main_listviewdata5};
-        adapter = new SimpleAdapter(this, photoinfoList, R.layout.listview_items, from, to);
-        listviewPhtoList.setAdapter(adapter);
+// ========== 테스트용 데이터 정의 영역 ==========
+
+        ArrayList<CvModel> photoURIList = new ArrayList<CvModel>(Arrays.asList(
+                new CvModel("https://images.unsplash.com/reserve/iZkDQMqeQlqhoCIywoFv_6005485056_c8622e0824_o.jpg?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"),
+                new CvModel("https://images.unsplash.com/photo-1464254786740-b97e5420c299?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"),
+                new CvModel( "https://images.unsplash.com/photo-1470472304068-4398a9daab00?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"),
+                new CvModel( "https://images.unsplash.com/photo-1500408921219-79e2a10faaff?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"),
+                new CvModel( "https://images.unsplash.com/photo-1464061884326-64f6ebd57f83?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjExMjU4fQ&auto=format&fit=crop&w=500&q=60"),
+                new CvModel("https://images.unsplash.com/photo-1488711500009-f9111944b1ab?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"),
+                new CvModel("https://images.unsplash.com/reserve/91JuTaUSKaMh2yjB1C4A_IMG_9284.jpg?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"),
+                new CvModel( "https://images.unsplash.com/photo-1465188162913-8fb5709d6d57?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"),
+                new CvModel("https://images.unsplash.com/photo-1486720912533-796a026d93ed?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjIxMTIzfQ&auto=format&fit=crop&w=500&q=60"),
+                new CvModel( "https://images.unsplash.com/photo-1522442902874-270c4b3a04df?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"),
+                new CvModel("https://images.unsplash.com/photo-1489617482379-fc98cdb77efb?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60")
+        ));
+
+// ========== RecyclerView 연결 영역 ==========
+
+        RecyclerView rv_layout = findViewById(R.id.rv_layout);
+        // RecyclerView의 레이아웃 매니저를 통해 레이아웃 정의
+        rv_layout.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+        // RecyclerView에 정의한 Adapter를 연결
+        adapter = new RvAdapter(photoURIList, this);
+        rv_layout.setAdapter(adapter);
+
+//        photoinfoList = new ArrayList<HashMap<String,String>>();
+//
+//        String[] from = new String[]{"id", "title","secret","server","farm"};
+//        int[] to = new int[] {R.id.textview_main_listviewdata1, R.id.textview_main_listviewdata2,
+//                R.id.textview_main_listviewdata3, R.id.textview_main_listviewdata4, R.id.textview_main_listviewdata5};
+//        adapter = new SimpleAdapter(this, photoinfoList, R.layout.listview_items, from, to);
+//        listviewPhtoList.setAdapter(adapter);
+
+
 
 
         buttonRequestJSON.setOnClickListener(new View.OnClickListener() {
@@ -87,7 +121,7 @@ public class FlickrActivity extends AppCompatActivity {
             }
         });
 
-        listviewPhtoList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        /*listviewPhtoList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -109,7 +143,7 @@ public class FlickrActivity extends AppCompatActivity {
                 intent.putExtras(bundle);
                 startActivity(intent);
             }
-        });
+        });*/
 
 
     }
@@ -220,7 +254,7 @@ public class FlickrActivity extends AppCompatActivity {
 
 
 
-    public boolean jsonParser(String jsonString){
+    public boolean jsonParser(String jsonString){recreate();
 
 
         if (jsonString == null ) return false;
@@ -233,7 +267,7 @@ public class FlickrActivity extends AppCompatActivity {
             JSONObject photos = jsonObject.getJSONObject("photos");
             JSONArray photo = photos.getJSONArray("photo");
 
-            photoinfoList.clear();
+            photoURIList.clear();
 
             for (int i = 0; i < photo.length(); i++) {
                 JSONObject photoInfo = photo.getJSONObject(i);
@@ -244,14 +278,12 @@ public class FlickrActivity extends AppCompatActivity {
                 String farm = photoInfo.getString("farm");
                 String title = photoInfo.getString("title");
 
-                HashMap<String, String> photoinfoMap = new HashMap<String, String>();
-                photoinfoMap.put("id", id);
-                photoinfoMap.put("secret", secret);
-                photoinfoMap.put("server", server);
-                photoinfoMap.put("farm", farm);
-                photoinfoMap.put("title", title);
+                //String thumbnailPhotoURL = "http://farm"+farm+".staticflickr.com/"+server+"/"
+                //+id+"_"+secret+"_t.jpg";
+                String largePhotoURL = "https://farm" + farm + ".staticflickr.com/" + server + "/"
+                        + id + "_" + secret + "_b.jpg";
 
-                photoinfoList.add(photoinfoMap);
+                photoURIList.add(new CvModel(largePhotoURL));
 
             }
 

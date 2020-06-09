@@ -2,71 +2,56 @@
 
     <LinearLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
         tools:context=".FlickrActivity">
 
-
-        <LinearLayout
+        <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="20dp"
-            android:layout_margin="5dp"
-            android:orientation="horizontal">
+            android:layout_height="0dp"
+            android:layout_weight="0.1"
+            >
 
-            <TextView
-                android:id="@+id/textview_main_listviewheader1"
-                android:layout_width="70dp"
-                android:layout_height="wrap_content"
-                android:text="id" />
-            <TextView
-                android:id="@+id/textview_main_listviewheader2"
-                android:layout_width="100dp"
-                android:layout_height="wrap_content"
-                android:text="title" />
-            <TextView
-                android:id="@+id/textview_main_listviewheader3"
-                android:layout_width="90dp"
-                android:layout_height="wrap_content"
-                android:text="secret" />
-            <TextView
-                android:id="@+id/textview_main_listviewheader4"
-                android:layout_width="60dp"
-                android:layout_height="wrap_content"
-                android:text="server" />
-            <TextView
-                android:id="@+id/textview_main_listviewheader5"
-                android:layout_width="30dp"
-                android:layout_height="wrap_content"
-                android:text="farm" />
+            <EditText
+                android:id="@+id/edittext_main_searchkeyword"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:inputType="textPersonName"
+                android:text=""
+                android:hint="@string/searchBox"
+                app:layout_constraintEnd_toStartOf="@+id/button_main_requestjson"
+                app:layout_constraintStart_toStartOf="parent"
+                tools:layout_editor_absoluteY="5dp"
+                android:importantForAutofill="no" />
 
-        </LinearLayout>
+            <Button
+                android:id="@+id/button_main_requestjson"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:text="@string/searchButton"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
+        </android.support.constraint.ConstraintLayout>
 
-        <ListView
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_layout"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.8"/>
+
+        <!--<ListView
             android:id="@+id/listview_main_list"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="0.8"
-            android:layout_margin="5dp"/>
-
-        <EditText
-            android:id="@+id/edittext_main_searchkeyword"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="0.1"
             android:layout_margin="5dp"
-            android:inputType="textPersonName"
-            android:text="" />
+            />-->
 
-        <Button
-            android:id="@+id/button_main_requestjson"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="0.1"
-            android:layout_margin="5dp"
-            android:text="JSON 가져오기" />
+
 
     </LinearLayout>
 

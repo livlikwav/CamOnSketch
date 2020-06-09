@@ -78,7 +78,7 @@ public class ShowImage extends AppCompatActivity {
         //String thumbnailPhotoURL = "http://farm"+farm+".staticflickr.com/"+server+"/"
         //+id+"_"+secret+"_t.jpg";
         largePhotoURL = "https://farm" + farm + ".staticflickr.com/" + server + "/"
-                + id + "_" + secret + "_b.jpg";
+                + id + "_" + secret + "_t.jpg";
 
 
         new showimageTask()
