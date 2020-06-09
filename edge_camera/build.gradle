@@ -31,9 +31,9 @@ task clean(type: Delete) {
 }
 
 ext {
-    sdk = 25
+    sdk = 28
     buildTools = "25.0.0" //keep 25.0.0 for Continuous Integration
-    minSdk = 21
+    minSdk = 14
     libraryVersion = "1.0.10"
     supportVersion = "25.0.0"
 }
