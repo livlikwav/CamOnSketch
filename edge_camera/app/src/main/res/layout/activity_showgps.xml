@@ -11,7 +11,15 @@
         android:id="@+id/text_gps"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="0.8"/>
+        android:layout_weight="0.1"/>
+
+    <fragment
+        android:id="@+id/map"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.8"
+        tools:context=".MapsActivity"
+        android:name="com.google.android.gms.maps.SupportMapFragment" />
 
     <Button
         android:id="@+id/button_showgps_back"
