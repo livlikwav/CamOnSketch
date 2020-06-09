@@ -6,6 +6,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
 import android.os.AsyncTask;
 import android.os.Bundle;
 
@@ -37,6 +38,19 @@ public class ShowImage extends AppCompatActivity {
     String largePhotoURL;
     Bitmap originbitmap;
 
+
+    private Bitmap imgRotate(Bitmap bmp){
+        int width = bmp.getWidth();
+        int height = bmp.getHeight();
+
+        Matrix matrix = new Matrix();
+        matrix.postRotate(270);
+
+        Bitmap resizedBitmap = Bitmap.createBitmap(bmp, 0, 0, width, height, matrix, true);
+        bmp.recycle();
+
+        return resizedBitmap;
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -90,6 +104,9 @@ public class ShowImage extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(ShowImage.this, ImageActivity.class);
 
+                if(originbitmap.getWidth() < originbitmap.getHeight()) {
+                    originbitmap = imgRotate(originbitmap);
+                }
                 ByteArrayOutputStream stream = new ByteArrayOutputStream();
                 float scale = (float) (1024/(float)originbitmap.getWidth());
                 int image_w = (int) (originbitmap.getWidth() * scale);
