@@ -2,9 +2,11 @@ package com.example.edge_camera;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -45,7 +47,8 @@ public class CameraFragmentMainActivity extends AppCompatActivity {
     public static final String FRAGMENT_TAG = "camera";
     private static final int REQUEST_CAMERA_PERMISSIONS = 931;
     private static final int REQUEST_PREVIEW_CODE = 1001;
-    private Bitmap mInputImage;
+    private Bitmap mInputImage2;
+    //private Bitmap newimage;
     private ImageView overlayimage_view;
     @Bind(R.id.settings_view)
     CameraSettingsView settingsView;
@@ -75,14 +78,38 @@ public class CameraFragmentMainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        overlayimage_view = (ImageView) findViewById(R.id.Overlayed_image);
-
-        byte[] byteArray = getIntent().getByteArrayExtra("edgeimage");
-        mInputImage = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
-
-        overlayimage_view.setImageBitmap(mInputImage);
         setContentView(R.layout.camerafragment_activity_main);
+
+//        byte[] byteArray = getIntent().getByteArrayExtra("edgeimage");
+//        mInputImage = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
+
+        Intent intent = getIntent();
+        byte[] arr = getIntent().getByteArrayExtra("edgeimage");
+        mInputImage2 = BitmapFactory.decodeByteArray(arr, 0, arr.length);
+
+
+
+        int sW = mInputImage2.getWidth();
+        int sH = mInputImage2.getHeight();
+        int size = sW*sH;
+        int[] pixels = new int[size];
+        mInputImage2.getPixels(pixels,0,sW,0,0,sW,sH);
+        for(int i=0; i<pixels.length; i++){
+//            int r = (color>>16) & 0xFF; //red /65536
+//            int g = (color>>8) & 0xFF; //green /256
+//            int b = (color) & 0xFF; //blue
+//            int y;
+//
+//            //하얀색 엣지
+          if(pixels[i] != Color.WHITE)
+                pixels[i]=Color.TRANSPARENT;
+        }
+        Bitmap edgeImage  = Bitmap.createBitmap(pixels, 0, sW, sW, sH, Bitmap.Config.ARGB_8888);
+
+
+        overlayimage_view = (ImageView)findViewById(R.id.Overlayed_image);
+        overlayimage_view.setImageBitmap(edgeImage);
+
         ButterKnife.bind(this);
     }
 

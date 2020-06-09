@@ -36,7 +36,7 @@ public class ImageActivity extends AppCompatActivity {
     private static final int REQ_CODE_SELECT_IMAGE = 100;
     private Bitmap mInputImage;
     private Bitmap mOriginalImage;
-    private Bitmap edgeImage;
+
     private ImageView mImageView;
     private ImageView mEdgeImageView;
     private boolean mIsOpenCVReady = true;
@@ -49,7 +49,7 @@ public class ImageActivity extends AppCompatActivity {
     }
 
     public void detectEdgeUsingJNI() {
-        System.out.println("k1111");
+        //System.out.println("k1111");
         if (!mIsOpenCVReady) {
             return;
         }
@@ -66,8 +66,8 @@ public class ImageActivity extends AppCompatActivity {
         int[] pixels = new int[size];
 
         mInputImage.getPixels(pixels,0,sW,0,0,sW,sH);
-        System.out.println("22222");
-        for(int i=0; i<size; i++){
+       System.out.println("22222");
+        for(int i=0; i<pixels.length; i++){
             int color = pixels[i];
 
             int r = (color>>16) & 0xFF; //red /65536
@@ -77,20 +77,37 @@ public class ImageActivity extends AppCompatActivity {
 
             //하얀색 엣지
             if(r==255 && g==255 && b==255){
-                pixels[i]=Color.BLACK;
+                pixels[i]=Color.WHITE;
             }
             else{
                 pixels[i]=Color.TRANSPARENT;
             }
         }
-        System.out.println("kkkkk");
-        edgeImage  = Bitmap.createBitmap(pixels, 0, sW, sW, sH, Bitmap.Config.ARGB_8888);
-        mEdgeImageView.setImageBitmap(edgeImage);
+        System.out.println("3333");
+        Bitmap edgeImage  = Bitmap.createBitmap(pixels, 0, sW, sW, sH, Bitmap.Config.ARGB_8888);
+        //mEdgeImageView.setImageBitmap(edgeImage);
         //mEdgeImageView.setImageBitmap(b);
-
         //ColorFilter filter = new PorterDuffColorFilter(Color.YELLOW, PorterDuff.Mode.OVERLAY);
         //mEdgeImageView.setColorFilter(filter); //색깔 입히기
         //mEdgeImageView.setAlpha(0.2f); //투명도 조절
+        System.out.println("444");
+        Intent intent3 = new Intent(ImageActivity.this, CameraFragmentMainActivity.class);
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        edgeImage.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+        byte[] byteArray = stream.toByteArray();
+        intent3.putExtra("edgeimage",byteArray);
+        startActivity(intent3);
+
+//        float scale = (float) (1024/(float)edgeImage.getWidth());
+//        int image_w = (int) (edgeImage.getWidth() * scale);
+//        int image_h = (int) (edgeImage.getHeight() * scale);
+//        Bitmap resize = Bitmap.createScaledBitmap(edgeImage, image_w, image_h, true);
+//        resize.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+//        byte[] byteArray2 = stream.toByteArray();
+//
+//        intent3.putExtra("edgeimage", byteArray2);
+//
+//        startActivity(intent3);
     }
 
     @Override
@@ -115,18 +132,7 @@ public class ImageActivity extends AppCompatActivity {
 
         detectEdgeUsingJNI();
 
-        Intent intent3 = new Intent(ImageActivity.this, CameraFragmentMainActivity.class);
-        ByteArrayOutputStream stream = new ByteArrayOutputStream();
-        float scale = (float) (1024/(float)edgeImage.getWidth());
-        int image_w = (int) (edgeImage.getWidth() * scale);
-        int image_h = (int) (edgeImage.getHeight() * scale);
-        Bitmap resize = Bitmap.createScaledBitmap(edgeImage, image_w, image_h, true);
-        resize.compress(Bitmap.CompressFormat.JPEG, 100, stream);
-        byte[] byteArray2 = stream.toByteArray();
 
-        intent3.putExtra("edgeimage", byteArray2);
-
-        startActivity(intent3);
 
 
     }

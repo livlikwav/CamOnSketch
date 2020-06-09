@@ -20,6 +20,7 @@
         tools:visibility="gone"
         android:text="Add camera" />
 
+
     <RelativeLayout
         android:id="@+id/cameraLayout"
         android:visibility="gone"
