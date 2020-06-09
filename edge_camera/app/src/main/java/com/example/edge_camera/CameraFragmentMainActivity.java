@@ -8,7 +8,10 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.ColorFilter;
 import android.graphics.Matrix;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffColorFilter;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -114,22 +117,27 @@ public class CameraFragmentMainActivity extends AppCompatActivity {
         mInputImage2 = BitmapFactory.decodeByteArray(arr, 0, arr.length);
 
 
-
         int sW = mInputImage2.getWidth();
         int sH = mInputImage2.getHeight();
         int size = sW*sH;
         int[] pixels = new int[size];
         mInputImage2.getPixels(pixels,0,sW,0,0,sW,sH);
-        for(int i=0; i<pixels.length; i++){
-//            int r = (color>>16) & 0xFF; //red /65536
-//            int g = (color>>8) & 0xFF; //green /256
-//            int b = (color) & 0xFF; //blue
-//            int y;
-//
-//            //하얀색 엣지
-          if(pixels[i] != Color.WHITE)
-                pixels[i]=Color.TRANSPARENT;
 
+        for(int i=0; i<pixels.length; i++){
+            int color = pixels[i];
+
+            int r = (color>>16) & 0xFF; //red /65536
+            int g = (color>>8) & 0xFF; //green /256
+            int b = (color) & 0xFF; //blue
+
+            //하얀색 엣지
+            if(r==255 && g==255 && b==255){
+                pixels[i]=Color.RED;
+            }
+            else{
+                //pixels[i]=Color.TRANSPARENT;
+                pixels[i]=Color.argb(80,0,0,0);
+            }
         }
        Bitmap edgeImage  = Bitmap.createBitmap(pixels, 0, sW, sW, sH, Bitmap.Config.ARGB_8888);
 
@@ -140,6 +148,9 @@ public class CameraFragmentMainActivity extends AppCompatActivity {
 
         overlayimage_view = (ImageView)findViewById(R.id.Overlayed_image);
         overlayimage_view.setImageBitmap(edgeImage);
+        //ColorFilter filter = new PorterDuffColorFilter(Color.YELLOW, PorterDuff.Mode.DARKEN);
+        //overlayimage_view.setColorFilter(filter); //색깔 입히기
+        //overlayimage_view.setAlpha(0.5f); //투명도 조절
 
 
         ButterKnife.bind(this);
