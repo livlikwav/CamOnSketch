@@ -2,7 +2,12 @@ package com.example.edge_camera;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -10,16 +15,20 @@ import android.support.annotation.RequiresPermission;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import com.github.florent37.camerafragment.CameraFragment;
 import com.github.florent37.camerafragment.CameraFragmentApi;
+import com.github.florent37.camerafragment.PreviewActivity;
 import com.github.florent37.camerafragment.configuration.Configuration;
 import com.github.florent37.camerafragment.listeners.CameraFragmentControlsAdapter;
 import com.github.florent37.camerafragment.listeners.CameraFragmentResultAdapter;
+import com.github.florent37.camerafragment.listeners.CameraFragmentResultListener;
 import com.github.florent37.camerafragment.listeners.CameraFragmentStateAdapter;
 import com.github.florent37.camerafragment.listeners.CameraFragmentVideoRecordTextAdapter;
 import com.github.florent37.camerafragment.widgets.CameraSettingsView;
@@ -29,8 +38,11 @@ import com.github.florent37.camerafragment.widgets.MediaActionSwitchView;
 import com.github.florent37.camerafragment.widgets.RecordButton;
 
 import java.io.File;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -42,6 +54,11 @@ public class CameraFragmentMainActivity extends AppCompatActivity {
     public static final String FRAGMENT_TAG = "camera";
     private static final int REQUEST_CAMERA_PERMISSIONS = 931;
     private static final int REQUEST_PREVIEW_CODE = 1001;
+    private Bitmap mInputImage2;
+    //private Bitmap newimage;
+    private ImageView overlayimage_view;
+
+    private Bitmap mInputImage;
     @Bind(R.id.settings_view)
     CameraSettingsView settingsView;
     @Bind(R.id.flash_switch_view)
@@ -63,7 +80,8 @@ public class CameraFragmentMainActivity extends AppCompatActivity {
     @Bind(R.id.addCameraButton)
     View addCameraButton;
     @Bind(R.id.Overlayed_image)
-    View overLayed_image;
+    ImageView overLayed_image;
+
 
 
 
@@ -71,6 +89,40 @@ public class CameraFragmentMainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.camerafragment_activity_main);
+//        this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
+
+
+//        byte[] byteArray = getIntent().getByteArrayExtra("edgeimage");
+//        mInputImage = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
+
+        Intent intent = getIntent();
+        byte[] arr = getIntent().getByteArrayExtra("edgeimage");
+        mInputImage2 = BitmapFactory.decodeByteArray(arr, 0, arr.length);
+
+
+
+        int sW = mInputImage2.getWidth();
+        int sH = mInputImage2.getHeight();
+        int size = sW*sH;
+        int[] pixels = new int[size];
+        mInputImage2.getPixels(pixels,0,sW,0,0,sW,sH);
+        for(int i=0; i<pixels.length; i++){
+//            int r = (color>>16) & 0xFF; //red /65536
+//            int g = (color>>8) & 0xFF; //green /256
+//            int b = (color) & 0xFF; //blue
+//            int y;
+//
+//            //하얀색 엣지
+          if(pixels[i] != Color.WHITE)
+                pixels[i]=Color.TRANSPARENT;
+        }
+        Bitmap edgeImage  = Bitmap.createBitmap(pixels, 0, sW, sW, sH, Bitmap.Config.ARGB_8888);
+
+
+        overlayimage_view = (ImageView)findViewById(R.id.Overlayed_image);
+        overlayimage_view.setImageBitmap(edgeImage);
+
+
         ButterKnife.bind(this);
     }
 
@@ -118,8 +170,8 @@ public class CameraFragmentMainActivity extends AppCompatActivity {
                                                            Toast.makeText(getBaseContext(), "onPhotoTaken " + filePath, Toast.LENGTH_SHORT).show();
                                                        }
                                                    },
-                    "/storage/self/primary",
-                    "photo0");
+                    "/storage/self/primary/edge_camera",
+                    "photo_"+generateTimestamp());
         }
     }
 
@@ -183,19 +235,21 @@ public class CameraFragmentMainActivity extends AppCompatActivity {
                 .commitAllowingStateLoss();
 
         if (cameraFragment != null) {
-            //cameraFragment.setResultListener(new CameraFragmentResultListener() {
-            //    @Override
-            //    public void onVideoRecorded(String filePath) {
-            //        Intent intent = PreviewActivity.newIntentVideo(CameraFragmentMainActivity.this, filePath);
-            //        startActivityForResult(intent, REQUEST_PREVIEW_CODE);
-            //    }
-//
-            //    @Override
-            //    public void onPhotoTaken(byte[] bytes, String filePath) {
-            //        Intent intent = PreviewActivity.newIntentPhoto(CameraFragmentMainActivity.this, filePath);
-            //        startActivityForResult(intent, REQUEST_PREVIEW_CODE);
-            //    }
-            //});
+            cameraFragment.setResultListener(new CameraFragmentResultListener() {
+                @Override
+                public void onVideoRecorded(String filePath) {
+                    Intent intent = PreviewActivity.newIntentVideo(CameraFragmentMainActivity.this, filePath);
+                    startActivityForResult(intent, REQUEST_PREVIEW_CODE);
+                }
+
+                @Override
+                public void onPhotoTaken(byte[] bytes, String filePath) {
+                    Intent intent = PreviewActivity.newIntentPhoto(CameraFragmentMainActivity.this, filePath);
+                    startActivityForResult(intent, REQUEST_PREVIEW_CODE);
+                    MediaScanner scanner = MediaScanner.newInstance(CameraFragmentMainActivity.this);
+                    scanner.mediaScanning("/storage/self/primary/edge_camera");
+                }
+            });
 
             cameraFragment.setStateListener(new CameraFragmentStateAdapter() {
 
@@ -335,5 +389,10 @@ public class CameraFragmentMainActivity extends AppCompatActivity {
 
     private CameraFragmentApi getCameraFragment() {
         return (CameraFragmentApi) getSupportFragmentManager().findFragmentByTag(FRAGMENT_TAG);
+    }
+
+    private static String generateTimestamp() {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy_MM_dd_HH_mm_ss_SSS", Locale.US);
+        return sdf.format(new Date());
     }
 }

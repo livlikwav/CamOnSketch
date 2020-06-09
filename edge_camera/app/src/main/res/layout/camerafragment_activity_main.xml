@@ -20,6 +20,7 @@
         tools:visibility="gone"
         android:text="Add camera" />
 
+
     <RelativeLayout
         android:id="@+id/cameraLayout"
         android:visibility="gone"
@@ -31,7 +32,6 @@
             android:id="@+id/Overlayed_image"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:src="@drawable/peng"
             android:visibility="gone" />
 
         <RelativeLayout

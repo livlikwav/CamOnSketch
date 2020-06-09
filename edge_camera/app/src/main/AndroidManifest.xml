@@ -30,14 +30,17 @@
 
         <activity
             android:name="com.example.edge_camera.CameraFragmentMainActivity"
-            android:screenOrientation="fullSensor"
+            android:screenOrientation="portrait"
             android:theme="@style/ThemeFullscreen" >
         </activity>
 
         <activity android:name=".FlickrActivity" />
         <activity android:name=".ShowImage" />
         <activity android:name=".ShowGps" />
-
+        <activity
+            android:name="com.github.florent37.camerafragment.PreviewActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/ThemeFullscreen" />
 
     </application>
 
