@@ -3,6 +3,8 @@ package com.example.edge_camera;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -11,6 +13,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
@@ -42,6 +45,8 @@ public class CameraFragmentMainActivity extends AppCompatActivity {
     public static final String FRAGMENT_TAG = "camera";
     private static final int REQUEST_CAMERA_PERMISSIONS = 931;
     private static final int REQUEST_PREVIEW_CODE = 1001;
+    private Bitmap mInputImage;
+    private ImageView overlayimage_view;
     @Bind(R.id.settings_view)
     CameraSettingsView settingsView;
     @Bind(R.id.flash_switch_view)
@@ -70,6 +75,13 @@ public class CameraFragmentMainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        overlayimage_view = (ImageView) findViewById(R.id.Overlayed_image);
+
+        byte[] byteArray = getIntent().getByteArrayExtra("edgeimage");
+        mInputImage = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
+
+        overlayimage_view.setImageBitmap(mInputImage);
         setContentView(R.layout.camerafragment_activity_main);
         ButterKnife.bind(this);
     }
