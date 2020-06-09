@@ -83,19 +83,7 @@ public class ShowGps extends AppCompatActivity implements OnMapReadyCallback {
 
         getJSON(id);
 
-//        lati = 0;
-//        longi = 0;
-//        System.out.println(lati);
-//        System.out.println(longi);
-//        System.out.println(latitude.getClass().getName());
-//        System.out.println(longitude.getClass().getName());
-//        lati = Double.parseDouble(latitude);
-//        longi = Double.parseDouble(longitude);
-//        lati = Math.round((lati*100)/100.0);
-//        longi = Math.round((longi*100)/100.0);
-//
-//        System.out.println(lati);
-//        System.out.println(longi);
+
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
@@ -107,7 +95,7 @@ public class ShowGps extends AppCompatActivity implements OnMapReadyCallback {
         mMap = googleMap;
 
 
-        LatLng Location = new LatLng(37.56, 126.97);
+        LatLng Location = new LatLng(longi, lati);
 
         MarkerOptions markerOptions = new MarkerOptions();
         markerOptions.position(Location);
@@ -261,6 +249,20 @@ public class ShowGps extends AppCompatActivity implements OnMapReadyCallback {
 //                    System.out.println(longtitude);
 //                }
 //            }
+
+            lati = 0;
+            longi = 0;
+            System.out.println(lati);
+            System.out.println(longi);
+//            System.out.println(latitude.getClass().getName());
+//            System.out.println(longitude.getClass().getName());
+            lati = Double.parseDouble(latitude);
+            longi = Double.parseDouble(longitude);
+            lati = (Math.round(lati*100)/100.0);
+            longi = (Math.round(longi*100)/100.0);
+
+            System.out.println(lati);
+            System.out.println(longi);
 
             gpsinfo = "위도 : "+latitude+"\n"+"경도 : "+longitude;
             System.out.println(gpsinfo);
