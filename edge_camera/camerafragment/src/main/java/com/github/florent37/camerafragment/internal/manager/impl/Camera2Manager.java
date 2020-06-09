@@ -406,6 +406,7 @@ public final class Camera2Manager extends BaseCameraManager<String, TextureView.
     @Override
     protected int getPhotoOrientation(@Configuration.SensorPosition int sensorPosition) {
         return getVideoOrientation(sensorPosition);
+//        return 0;
     }
 
     @Override
