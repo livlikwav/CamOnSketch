@@ -215,7 +215,6 @@ public class ShowGps extends AppCompatActivity implements OnMapReadyCallback {
         }catch(InterruptedException e){
             Log.d(TAG, e.toString() );
         }
-
     }
 
     public boolean jsonParser(String jsonString){

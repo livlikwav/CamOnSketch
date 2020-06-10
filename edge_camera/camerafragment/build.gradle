@@ -1,7 +1,7 @@
 apply plugin: 'com.android.library'
 
 android {
-    compileSdkVersion 25
+    compileSdkVersion 28
     defaultConfig {
         minSdkVersion project.minSdk
         targetSdkVersion project.sdk
