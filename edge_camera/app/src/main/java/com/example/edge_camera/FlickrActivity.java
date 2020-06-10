@@ -249,13 +249,18 @@ public class FlickrActivity extends AppCompatActivity {
             }
 
         });
-        thread.start();
+        try {
+            thread.start();
+            thread.join();
+        }catch (InterruptedException e){
+            e.printStackTrace();
+        }
+
     }
 
 
 
-    public boolean jsonParser(String jsonString){recreate();
-
+    public boolean jsonParser(String jsonString){
 
         if (jsonString == null ) return false;
 
@@ -278,12 +283,13 @@ public class FlickrActivity extends AppCompatActivity {
                 String farm = photoInfo.getString("farm");
                 String title = photoInfo.getString("title");
 
-                //String thumbnailPhotoURL = "http://farm"+farm+".staticflickr.com/"+server+"/"
-                //+id+"_"+secret+"_t.jpg";
-                String largePhotoURL = "https://farm" + farm + ".staticflickr.com/" + server + "/"
-                        + id + "_" + secret + "_b.jpg";
+                String thumbnailPhotoURL = "http://farm"+farm+".staticflickr.com/"+server+"/"
+                +id+"_"+secret+"_t.jpg";
+//                String largePhotoURL = "https://farm" + farm + ".staticflickr.com/" + server + "/"
+//                        + id + "_" + secret + "_b.jpg";
 
-                photoURIList.add(new CvModel(largePhotoURL));
+//                photoURIList.add(new CvModel(largePhotoURL));
+                photoURIList.add(new CvModel(thumbnailPhotoURL));
 
             }
 

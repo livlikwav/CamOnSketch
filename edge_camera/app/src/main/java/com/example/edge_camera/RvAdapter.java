@@ -1,6 +1,7 @@
 package com.example.edge_camera;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -32,7 +33,7 @@ public class RvAdapter extends RecyclerView.Adapter<RvAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull RvAdapter.ViewHolder holder, int position) {
         // ViewHolder에 정의된 이미지뷰에 데이터의 이미지 경로의 이미지 출력
-        Glide.with(context).load(data.get(position).getImageURI()).override(1024).into(holder.rv_image);
+        Glide.with(context).load(data.get(position).getImageURI()).error(R.drawable.error_img).into(holder.rv_image);
     }
 
     @Override
