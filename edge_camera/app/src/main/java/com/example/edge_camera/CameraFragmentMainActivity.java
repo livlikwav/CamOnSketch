@@ -81,8 +81,8 @@ public class CameraFragmentMainActivity extends AppCompatActivity {
 
     @Bind(R.id.cameraLayout)
     View cameraLayout;
-    @Bind(R.id.addCameraButton)
-    View addCameraButton;
+//    @Bind(R.id.addCameraButton)
+//    View addCameraButton;
     @Bind(R.id.Overlayed_image)
     ImageView overLayed_image;
 
@@ -152,7 +152,7 @@ public class CameraFragmentMainActivity extends AppCompatActivity {
         //overlayimage_view.setColorFilter(filter); //색깔 입히기
         //overlayimage_view.setAlpha(0.5f); //투명도 조절
 
-
+        addCamera();
         ButterKnife.bind(this);
     }
 
@@ -221,42 +221,42 @@ public class CameraFragmentMainActivity extends AppCompatActivity {
         }
     }
 
-    @OnClick(R.id.addCameraButton)
-    public void onAddCameraClicked() {
-        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1) {
-            final String[] permissions = {
-                    Manifest.permission.CAMERA,
-                    Manifest.permission.RECORD_AUDIO,
-                    Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                    Manifest.permission.READ_EXTERNAL_STORAGE};
+//    @OnClick(R.id.addCameraButton)
+//    public void onAddCameraClicked() {
+//        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1) {
+//            final String[] permissions = {
+//                    Manifest.permission.CAMERA,
+//                    Manifest.permission.RECORD_AUDIO,
+//                    Manifest.permission.WRITE_EXTERNAL_STORAGE,
+//                    Manifest.permission.READ_EXTERNAL_STORAGE};
+//
+//            final List<String> permissionsToRequest = new ArrayList<>();
+//            for (String permission : permissions) {
+//                if (ActivityCompat.checkSelfPermission(this, permission) != PackageManager.PERMISSION_GRANTED) {
+//                    permissionsToRequest.add(permission);
+//                }
+//            }
+//            if (!permissionsToRequest.isEmpty()) {
+//                ActivityCompat.requestPermissions(this, permissionsToRequest.toArray(new String[permissionsToRequest.size()]), REQUEST_CAMERA_PERMISSIONS);
+//            } else addCamera();
+//        } else {
+//            addCamera();
+//        }
+//    }
 
-            final List<String> permissionsToRequest = new ArrayList<>();
-            for (String permission : permissions) {
-                if (ActivityCompat.checkSelfPermission(this, permission) != PackageManager.PERMISSION_GRANTED) {
-                    permissionsToRequest.add(permission);
-                }
-            }
-            if (!permissionsToRequest.isEmpty()) {
-                ActivityCompat.requestPermissions(this, permissionsToRequest.toArray(new String[permissionsToRequest.size()]), REQUEST_CAMERA_PERMISSIONS);
-            } else addCamera();
-        } else {
-            addCamera();
-        }
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (grantResults.length != 0) {
-            addCamera();
-        }
-    }
+//    @Override
+//    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+//        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+//        if (grantResults.length != 0) {
+//            addCamera();
+//        }
+//    }
 
     @RequiresPermission(Manifest.permission.CAMERA)
     public void addCamera() {
 
-        addCameraButton.setVisibility(View.GONE);
-        cameraLayout.setVisibility(View.VISIBLE);
+//        addCameraButton.setVisibility(View.GONE);
+//        cameraLayout.setVisibility(View.VISIBLE);
 
         final CameraFragment cameraFragment = CameraFragment.newInstance(new Configuration.Builder()
                 .setCamera(Configuration.CAMERA_FACE_REAR).build());
