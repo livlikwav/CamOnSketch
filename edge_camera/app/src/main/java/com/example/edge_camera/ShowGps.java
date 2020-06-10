@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
+import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -44,6 +45,8 @@ public class ShowGps extends AppCompatActivity implements OnMapReadyCallback {
     private String gpsinfo;
 
     double lati, longi;
+    LatLng Location;
+
 
     TextView textview;
 
@@ -84,7 +87,6 @@ public class ShowGps extends AppCompatActivity implements OnMapReadyCallback {
         getJSON(id);
 
 
-
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
@@ -92,18 +94,20 @@ public class ShowGps extends AppCompatActivity implements OnMapReadyCallback {
     }
     public void onMapReady(final GoogleMap googleMap) {
 
+
         mMap = googleMap;
 
 
-        LatLng Location = new LatLng(longi, lati);
+        Location = new LatLng(lati, longi);
+
+
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(Location, 15));
 
         MarkerOptions markerOptions = new MarkerOptions();
         markerOptions.position(Location);
         markerOptions.title("촬영지");
         markerOptions.snippet("촬영된 장소");
-        mMap.addMarker(markerOptions);
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(Location));
-        mMap.animateCamera(CameraUpdateFactory.zoomTo(10));
+        mMap.addMarker(markerOptions).showInfoWindow();
     }
 
 
@@ -205,7 +209,13 @@ public class ShowGps extends AppCompatActivity implements OnMapReadyCallback {
             }
 
         });
-        thread.start();
+        try{
+            thread.start();
+            thread.join();
+        }catch(InterruptedException e){
+            Log.d(TAG, e.toString() );
+        }
+
     }
 
     public boolean jsonParser(String jsonString){
@@ -258,11 +268,13 @@ public class ShowGps extends AppCompatActivity implements OnMapReadyCallback {
 //            System.out.println(longitude.getClass().getName());
             lati = Double.parseDouble(latitude);
             longi = Double.parseDouble(longitude);
-            lati = (Math.round(lati*100)/100.0);
-            longi = (Math.round(longi*100)/100.0);
+            // = (Math.round(lati*100)/100.0);
+            //longi = (Math.round(longi*100)/100.0);
 
             System.out.println(lati);
             System.out.println(longi);
+
+
 
             gpsinfo = "위도 : "+latitude+"\n"+"경도 : "+longitude;
             System.out.println(gpsinfo);
