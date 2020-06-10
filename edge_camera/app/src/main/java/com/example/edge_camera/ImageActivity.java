@@ -1,5 +1,6 @@
 package com.example.edge_camera;
 
+import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -9,7 +10,6 @@ import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -18,6 +18,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -27,17 +28,15 @@ import org.opencv.android.Utils;
 import org.opencv.core.Mat;
 import org.opencv.imgproc.Imgproc;
 
+import java.io.ByteArrayOutputStream;
+
 
 public class ImageActivity extends AppCompatActivity {
 
     private static final String TAG = "AndroidOpenCv";
     private static final int REQ_CODE_SELECT_IMAGE = 100;
     private Bitmap mInputImage;
-    private Bitmap mOriginalImage;
-    private Bitmap b;
-    private ImageView mImageView;
-    private ImageView mEdgeImageView;
-    private boolean mIsOpenCVReady = false;
+    private boolean mIsOpenCVReady = true;
 
     public native void detectEdgeJNI(long inputImage, long outputImage, int th1, int th2);
 
@@ -47,69 +46,41 @@ public class ImageActivity extends AppCompatActivity {
     }
 
     public void detectEdgeUsingJNI() {
-        System.out.println("k1111");
+
         if (!mIsOpenCVReady) {
             return;
         }
         Mat src = new Mat();
         Utils.bitmapToMat(mInputImage, src);
-        //mImageView.setImageBitmap(mOriginalImage);
         Mat edge = new Mat();
-        detectEdgeJNI(src.getNativeObjAddr(), edge.getNativeObjAddr(), 100, 150);
+
+        detectEdgeJNI(src.getNativeObjAddr(), edge.getNativeObjAddr(), 150, 200);
         Utils.matToBitmap(edge, mInputImage);
 
-
-        int sW = mInputImage.getWidth();
-        int sH = mInputImage.getHeight();
-        int size = sW*sH;
-        int[] pixels = new int[size];
-
-        mInputImage.getPixels(pixels,0,sW,0,0,sW,sH);
-        System.out.println("22222");
-        for(int i=0; i<size; i++){
-            int color = pixels[i];
-
-            int r = (color>>16) & 0xFF; //red /65536
-            int g = (color>>8) & 0xFF; //green /256
-            int b = (color) & 0xFF; //blue
-            int y;
-
-            //하얀색 엣지
-            if(r==255 && g==255 && b==255){
-                pixels[i]=Color.BLACK;
-            }
-            else{
-                pixels[i]=Color.TRANSPARENT;
-            }
-        }
-        System.out.println("kkkkk");
-        b  = Bitmap.createBitmap(pixels, 0, sW, sW, sH, Bitmap.Config.ARGB_8888);
-        mEdgeImageView.setImageBitmap(b);
-        //mEdgeImageView.setImageBitmap(b);
-
-        //ColorFilter filter = new PorterDuffColorFilter(Color.YELLOW, PorterDuff.Mode.OVERLAY);
-        //mEdgeImageView.setColorFilter(filter); //색깔 입히기
-        //mEdgeImageView.setAlpha(0.2f); //투명도 조절
+        Intent intent3 = new Intent(ImageActivity.this, CameraFragmentMainActivity.class);
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        mInputImage.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+        byte[] byteArray = stream.toByteArray();
+        intent3.putExtra("edgeimage",byteArray);
+        startActivity(intent3);
     }
 
+    @SuppressLint("WrongThread")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_image);
-        mImageView = (ImageView) findViewById(R.id.origin_iv);
-        mEdgeImageView = (ImageView) findViewById(R.id.edge_iv);
-
         byte[] byteArray = getIntent().getByteArrayExtra("image");
         mInputImage = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
 
-        detectEdgeUsingJNI();
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (!hasPermissions(PERMISSIONS)) {
                 requestPermissions(PERMISSIONS, PERMISSIONS_REQUEST_CODE);
             }
         }
+
+        detectEdgeUsingJNI();
     }
 
     @Override
@@ -134,7 +105,7 @@ public class ImageActivity extends AppCompatActivity {
                     String path = getImagePathFromURI(data.getData());
                     BitmapFactory.Options options = new BitmapFactory.Options();
                     options.inSampleSize = 4;
-                    mOriginalImage = BitmapFactory.decodeFile(path, options);
+
                     mInputImage = BitmapFactory.decodeFile(path, options);
                     if (mInputImage != null) {
                         detectEdgeUsingJNI();
@@ -231,4 +202,6 @@ public class ImageActivity extends AppCompatActivity {
         });
         builder.create().show();
     }
+
+
 }
