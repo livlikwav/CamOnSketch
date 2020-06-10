@@ -168,7 +168,12 @@ public class ShowGps extends AppCompatActivity {
             }
 
         });
-        thread.start();
+        try {
+            thread.start();
+            thread.join();
+        }catch (InterruptedException e){
+            e.printStackTrace();
+        }
     }
 
     public boolean jsonParser(String jsonString){

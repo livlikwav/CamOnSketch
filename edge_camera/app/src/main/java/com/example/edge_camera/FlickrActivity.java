@@ -58,7 +58,7 @@ public class FlickrActivity extends AppCompatActivity {
     private EditText searchKeyword = null;
 
     private RvAdapter adapter = null;
-    private ArrayList<CvModel> photoURIList = null;
+    private ArrayList<CvModel> photoURIList = new ArrayList<CvModel>();
 
 
 
@@ -72,21 +72,21 @@ public class FlickrActivity extends AppCompatActivity {
         searchKeyword = (EditText)findViewById(R.id.edittext_main_searchkeyword);
 
 
-// ========== 테스트용 데이터 정의 영역 ==========
-
-        ArrayList<CvModel> photoURIList = new ArrayList<CvModel>(Arrays.asList(
-                new CvModel("https://images.unsplash.com/reserve/iZkDQMqeQlqhoCIywoFv_6005485056_c8622e0824_o.jpg?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"),
-                new CvModel("https://images.unsplash.com/photo-1464254786740-b97e5420c299?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"),
-                new CvModel( "https://images.unsplash.com/photo-1470472304068-4398a9daab00?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"),
-                new CvModel( "https://images.unsplash.com/photo-1500408921219-79e2a10faaff?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"),
-                new CvModel( "https://images.unsplash.com/photo-1464061884326-64f6ebd57f83?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjExMjU4fQ&auto=format&fit=crop&w=500&q=60"),
-                new CvModel("https://images.unsplash.com/photo-1488711500009-f9111944b1ab?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"),
-                new CvModel("https://images.unsplash.com/reserve/91JuTaUSKaMh2yjB1C4A_IMG_9284.jpg?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"),
-                new CvModel( "https://images.unsplash.com/photo-1465188162913-8fb5709d6d57?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"),
-                new CvModel("https://images.unsplash.com/photo-1486720912533-796a026d93ed?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjIxMTIzfQ&auto=format&fit=crop&w=500&q=60"),
-                new CvModel( "https://images.unsplash.com/photo-1522442902874-270c4b3a04df?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"),
-                new CvModel("https://images.unsplash.com/photo-1489617482379-fc98cdb77efb?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60")
-        ));
+//// ========== 테스트용 데이터 정의 영역 ==========
+//
+//        photoURIList = new ArrayList<CvModel>(Arrays.asList(
+//                new CvModel("https://images.unsplash.com/reserve/iZkDQMqeQlqhoCIywoFv_6005485056_c8622e0824_o.jpg?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"),
+//                new CvModel("https://images.unsplash.com/photo-1464254786740-b97e5420c299?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"),
+//                new CvModel( "https://images.unsplash.com/photo-1470472304068-4398a9daab00?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"),
+//                new CvModel( "https://images.unsplash.com/photo-1500408921219-79e2a10faaff?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"),
+//                new CvModel( "https://images.unsplash.com/photo-1464061884326-64f6ebd57f83?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjExMjU4fQ&auto=format&fit=crop&w=500&q=60"),
+//                new CvModel("https://images.unsplash.com/photo-1488711500009-f9111944b1ab?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"),
+//                new CvModel("https://images.unsplash.com/reserve/91JuTaUSKaMh2yjB1C4A_IMG_9284.jpg?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"),
+//                new CvModel( "https://images.unsplash.com/photo-1465188162913-8fb5709d6d57?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"),
+//                new CvModel("https://images.unsplash.com/photo-1486720912533-796a026d93ed?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjIxMTIzfQ&auto=format&fit=crop&w=500&q=60"),
+//                new CvModel( "https://images.unsplash.com/photo-1522442902874-270c4b3a04df?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"),
+//                new CvModel("https://images.unsplash.com/photo-1489617482379-fc98cdb77efb?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60")
+//        ));
 
 // ========== RecyclerView 연결 영역 ==========
 
@@ -96,6 +96,23 @@ public class FlickrActivity extends AppCompatActivity {
         // RecyclerView에 정의한 Adapter를 연결
         adapter = new RvAdapter(photoURIList, this);
         rv_layout.setAdapter(adapter);
+
+        // add custom listener for activity control
+        adapter.setOnItemClickListener(
+                new RvAdapter.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(View v, int pos) {
+
+                        Bundle bundle = new Bundle();
+                        bundle.putString( "imgUrl", photoURIList.get(pos).getImageURI());
+                        bundle.putString( "id", photoURIList.get(pos).getId());
+
+                        Intent intent = new Intent(FlickrActivity.this, ShowImage.class);
+                        intent.putExtras(bundle);
+                        startActivity(intent);
+                   }
+               }
+       );
 
 //        photoinfoList = new ArrayList<HashMap<String,String>>();
 //
@@ -121,29 +138,30 @@ public class FlickrActivity extends AppCompatActivity {
             }
         });
 
-        /*listviewPhtoList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//        rv_layout.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//
+//                TextView textviewId = (TextView)view.findViewById(R.id.textview_main_listviewdata1);
+//                TextView textviewTitle = (TextView)view.findViewById(R.id.textview_main_listviewdata2);
+//                TextView textviewSecret = (TextView)view.findViewById(R.id.textview_main_listviewdata3);
+//                TextView textviewServer = (TextView)view.findViewById(R.id.textview_main_listviewdata4);
+//                TextView textviewFarm = (TextView)view.findViewById(R.id.textview_main_listviewdata5);
+//
+//                Bundle bundle = new Bundle();
+//                bundle.putString( "id", textviewId.getText().toString());
+//                bundle.putString( "title", textviewTitle.getText().toString());
+//                bundle.putString( "secret", textviewSecret.getText().toString());
+//                bundle.putString( "server", textviewServer.getText().toString());
+//                bundle.putString( "farm", textviewFarm.getText().toString());
+//
+//                Intent intent = new Intent(FlickrActivity.this, ShowImage.class);
+//                intent.putExtras(bundle);
+//                startActivity(intent);
+//            }
+//        });
 
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                TextView textviewId = (TextView)view.findViewById(R.id.textview_main_listviewdata1);
-                TextView textviewTitle = (TextView)view.findViewById(R.id.textview_main_listviewdata2);
-                TextView textviewSecret = (TextView)view.findViewById(R.id.textview_main_listviewdata3);
-                TextView textviewServer = (TextView)view.findViewById(R.id.textview_main_listviewdata4);
-                TextView textviewFarm = (TextView)view.findViewById(R.id.textview_main_listviewdata5);
-
-                Bundle bundle = new Bundle();
-                bundle.putString( "id", textviewId.getText().toString());
-                bundle.putString( "title", textviewTitle.getText().toString());
-                bundle.putString( "secret", textviewSecret.getText().toString());
-                bundle.putString( "server", textviewServer.getText().toString());
-                bundle.putString( "farm", textviewFarm.getText().toString());
-
-                Intent intent = new Intent(FlickrActivity.this, ShowImage.class);
-                intent.putExtras(bundle);
-                startActivity(intent);
-            }
-        });*/
 
 
     }
@@ -249,12 +267,7 @@ public class FlickrActivity extends AppCompatActivity {
             }
 
         });
-        try {
-            thread.start();
-            thread.join();
-        }catch (InterruptedException e){
-            e.printStackTrace();
-        }
+        thread.start();
 
     }
 
@@ -283,13 +296,13 @@ public class FlickrActivity extends AppCompatActivity {
                 String farm = photoInfo.getString("farm");
                 String title = photoInfo.getString("title");
 
-                String thumbnailPhotoURL = "http://farm"+farm+".staticflickr.com/"+server+"/"
-                +id+"_"+secret+"_t.jpg";
-//                String largePhotoURL = "https://farm" + farm + ".staticflickr.com/" + server + "/"
-//                        + id + "_" + secret + "_b.jpg";
+//                String thumbnailPhotoURL = "http://farm"+farm+".staticflickr.com/"+server+"/"
+//                +id+"_"+secret+"_t.jpg";
+                String largePhotoURL = "https://farm" + farm + ".staticflickr.com/" + server + "/"
+                        + id + "_" + secret + "_b.jpg";
 
-//                photoURIList.add(new CvModel(largePhotoURL));
-                photoURIList.add(new CvModel(thumbnailPhotoURL));
+                photoURIList.add(new CvModel(largePhotoURL, id));
+//                photoURIList.add(new CvModel(thumbnailPhotoURL));
 
             }
 

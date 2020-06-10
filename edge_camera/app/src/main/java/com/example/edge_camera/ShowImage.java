@@ -34,7 +34,7 @@ public class ShowImage extends AppCompatActivity {
     ImageView imageviewLargePhoto;
 
     Bundle bundle;
-    String largePhotoURL;
+    String imgUrl;
     Bitmap originbitmap;
 
     @Override
@@ -58,13 +58,7 @@ public class ShowImage extends AppCompatActivity {
 
         Intent intent = getIntent();
         bundle = intent.getExtras();
-        String id = bundle.getString("id");
-        String title = bundle.getString("title");
-        String secret = bundle.getString("secret");
-        String server = bundle.getString("server");
-        String farm = bundle.getString("farm");
-
-
+        imgUrl = bundle.getString("imgUrl");
 
         buttonGps.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -77,13 +71,13 @@ public class ShowImage extends AppCompatActivity {
 
         //String thumbnailPhotoURL = "http://farm"+farm+".staticflickr.com/"+server+"/"
         //+id+"_"+secret+"_t.jpg";
-        largePhotoURL = "https://farm" + farm + ".staticflickr.com/" + server + "/"
-                + id + "_" + secret + "_t.jpg";
+//        largePhotoURL = "https://farm" + farm + ".staticflickr.com/" + server + "/"
+//                + id + "_" + secret + "_t.jpg";
 
 
         new showimageTask()
-                .execute(largePhotoURL);
-        System.out.println(largePhotoURL);
+                .execute(imgUrl);
+        System.out.println(imgUrl);
 
         buttonEdge.setOnClickListener(new View.OnClickListener() {
             @Override
