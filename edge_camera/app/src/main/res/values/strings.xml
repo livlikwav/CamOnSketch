@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">edge_camera</string>
+    <string name="app_name">CamOnSketch</string>
     <string name="searchBox">검색어</string>
     <string name="searchButton">검색</string>
 </resources>
