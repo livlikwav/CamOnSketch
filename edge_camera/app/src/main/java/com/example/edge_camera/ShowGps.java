@@ -1,6 +1,6 @@
 package com.example.edge_camera;
 
-
+import java.lang.*;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,6 +12,14 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
+
+import com.google.android.gms.maps.CameraUpdate;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -26,24 +34,34 @@ import java.net.URL;
 import java.util.HashMap;
 import java.util.Vector;
 
-public class ShowGps extends AppCompatActivity {
+public class ShowGps extends AppCompatActivity implements OnMapReadyCallback {
     private static final String TAG = "imagesearchexample";
     public static final int LOAD_SUCCESS = 101;
     private ProgressDialog progressDialog = null;
     private SimpleAdapter adapter = null;
     private HashMap<String,String> GPSinfo = null;
     private Vector<String> gpvector = null;
-    private String longtitude, latitude;
+    String longitude, latitude;
     private String gpsinfo;
+
+    double lati, longi;
+    LatLng Location;
+
 
     TextView textview;
 
 
-    private String SEARCH_URL = " https://secure.flickr.com/services/rest/?method=flickr.photos.getExif";
+
+    private String SEARCH_URL = "https://www.flickr.com/services/rest/?method=flickr.photos.geo.getLocation";
     private String API_KEY = "&api_key=10521af729a2985c4261b44a7b2d36be";
     private String PHOTO_ID = "&photo_id=";
     private String FORMAT = "&format=json";
     private String REQUEST_URL = SEARCH_URL+API_KEY+FORMAT+PHOTO_ID;
+
+
+    private GoogleMap mMap;
+
+
 
 
     @Override
@@ -68,7 +86,30 @@ public class ShowGps extends AppCompatActivity {
 
         getJSON(id);
 
+
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+                .findFragmentById(R.id.map);
+        mapFragment.getMapAsync(this);
+
     }
+    public void onMapReady(final GoogleMap googleMap) {
+
+
+        mMap = googleMap;
+
+
+        Location = new LatLng(lati, longi);
+
+
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(Location, 15));
+
+        MarkerOptions markerOptions = new MarkerOptions();
+        markerOptions.position(Location);
+        markerOptions.title("촬영지");
+        markerOptions.snippet("촬영된 장소");
+        mMap.addMarker(markerOptions).showInfoWindow();
+    }
+
 
     private final ShowGps.MyHandler mHandler = new ShowGps.MyHandler(this);
     private static class MyHandler extends Handler {
@@ -168,7 +209,13 @@ public class ShowGps extends AppCompatActivity {
             }
 
         });
-        thread.start();
+        try{
+            thread.start();
+            thread.join();
+        }catch(InterruptedException e){
+            Log.d(TAG, e.toString() );
+        }
+
     }
 
     public boolean jsonParser(String jsonString){
@@ -181,35 +228,55 @@ public class ShowGps extends AppCompatActivity {
         try {
             JSONObject jsonObject = new JSONObject(jsonString);
             JSONObject photo = jsonObject.getJSONObject("photo");
-            JSONArray exif = photo.getJSONArray("exif");
+            JSONObject location = photo.getJSONObject("location");
+            latitude = location.getString("latitude");
+            longitude = location.getString("longitude");
 
 
 
-            for (int i = 0; i < exif.length(); i++) {
-                JSONObject photoInfo = exif.getJSONObject(i);
+//
+//            for (int i = 0; i < location.length(); i++) {
+//                JSONObject photoInfo = location.getJSONObject(i);
+//
+//                String tag = photoInfo.getString("tag");
+//
+//                JSONObject raw = photoInfo.getJSONObject("raw");
+//                GPSinfo= new HashMap<String, String>();
+//                if(tag.equals("GPSLatitude"))
+//                {
+//
+//                    latitude = raw.getString("_content");
+//                    latitude = latitude.replace(" deg ","º");
+//                    latitude = latitude.substring(0,latitude.length()-1);
+//                    System.out.println(latitude);
+//
+//                }
+//
+//                if(tag.equals("GPSLongitude")) {
+//                    longtitude = raw.getString("_content");
+//                    longtitude = longtitude.replace(" deg ","º");
+//                    longtitude = longtitude.substring(0,longtitude.length()-1);
+//                    System.out.println(longtitude);
+//                }
+//            }
 
-                String tag = photoInfo.getString("tag");
+            lati = 0;
+            longi = 0;
+            System.out.println(lati);
+            System.out.println(longi);
+//            System.out.println(latitude.getClass().getName());
+//            System.out.println(longitude.getClass().getName());
+            lati = Double.parseDouble(latitude);
+            longi = Double.parseDouble(longitude);
+            // = (Math.round(lati*100)/100.0);
+            //longi = (Math.round(longi*100)/100.0);
 
-                JSONObject raw = photoInfo.getJSONObject("raw");
-                GPSinfo= new HashMap<String, String>();
-                if(tag.equals("GPSLatitude"))
-                {
+            System.out.println(lati);
+            System.out.println(longi);
 
-                    latitude = raw.getString("_content");
-                    latitude = latitude.replace(" deg ","º");
-                    latitude = latitude.substring(0,latitude.length()-1);
-                    System.out.println(latitude);
 
-                }
 
-                if(tag.equals("GPSLongitude")) {
-                    longtitude = raw.getString("_content");
-                    longtitude = longtitude.replace(" deg ","º");
-                    longtitude = longtitude.substring(0,longtitude.length()-1);
-                    System.out.println(longtitude);
-                }
-            }
-            gpsinfo = "위도 : "+latitude+"\n"+"경도 : "+longtitude;
+            gpsinfo = "위도 : "+latitude+"\n"+"경도 : "+longitude;
             System.out.println(gpsinfo);
 
             return true;
