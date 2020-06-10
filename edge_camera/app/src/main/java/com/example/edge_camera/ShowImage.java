@@ -106,18 +106,30 @@ public class ShowImage extends AppCompatActivity {
 
                 if(originbitmap.getWidth() < originbitmap.getHeight()) {
                     originbitmap = imgRotate(originbitmap);
+
+                    ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                    float scale = (float) (512 / (float) originbitmap.getWidth());
+                    int image_w = (int) (originbitmap.getWidth() * scale);
+                    int image_h = (int) (originbitmap.getHeight() * scale);
+                    Bitmap resize = Bitmap.createScaledBitmap(originbitmap, image_w, image_h, true);
+                    resize.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+                    byte[] byteArray = stream.toByteArray();
+                    intent.putExtra("image", byteArray);
+
+                    startActivity(intent);
                 }
-                ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                float scale = (float) (1024/(float)originbitmap.getWidth());
-                int image_w = (int) (originbitmap.getWidth() * scale);
-                int image_h = (int) (originbitmap.getHeight() * scale);
-                Bitmap resize = Bitmap.createScaledBitmap(originbitmap, image_w, image_h, true);
-                resize.compress(Bitmap.CompressFormat.JPEG, 100, stream);
-                byte[] byteArray = stream.toByteArray();
+                else {
+                    ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                    float scale = (float) (1024 / (float) originbitmap.getWidth());
+                    int image_w = (int) (originbitmap.getWidth() * scale);
+                    int image_h = (int) (originbitmap.getHeight() * scale);
+                    Bitmap resize = Bitmap.createScaledBitmap(originbitmap, image_w, image_h, true);
+                    resize.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+                    byte[] byteArray = stream.toByteArray();
+                    intent.putExtra("image", byteArray);
 
-                intent.putExtra("image", byteArray);
-
-                startActivity(intent);
+                    startActivity(intent);
+                }
             }
         });
 
