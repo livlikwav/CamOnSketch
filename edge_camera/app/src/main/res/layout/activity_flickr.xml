@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:context=".FlickrActivity">
+
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.1"
+            >
+
+            <EditText
+                android:id="@+id/edittext_main_searchkeyword"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:inputType="textPersonName"
+                android:text=""
+                android:hint="@string/searchBox"
+                app:layout_constraintEnd_toStartOf="@+id/button_main_requestjson"
+                app:layout_constraintStart_toStartOf="parent"
+                tools:layout_editor_absoluteY="5dp"
+                android:importantForAutofill="no" />
+
+            <Button
+                android:id="@+id/button_main_requestjson"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:text="@string/searchButton"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.0"
+                android:background="@drawable/buttonimage"/>
+
+        </android.support.constraint.ConstraintLayout>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_layout"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.8"/>
+
+    </LinearLayout>
+
