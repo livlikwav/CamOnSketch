@@ -10,46 +10,50 @@
         android:id="@+id/load_image_btn"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="524dp"
         android:background="@drawable/buttonimage"
         android:onClick="onButtonClicked"
         android:text="@string/getimg_album"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.713" />
 
     <Button
         android:id="@+id/button3"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="600dp"
+        android:layout_marginTop="28dp"
         android:background="@drawable/buttonimage"
         android:text="@string/getimg_flicker"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/load_image_btn"
+        app:layout_constraintVertical_bias="0.0" />
 
     <ImageView
         android:id="@+id/imageView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:contentDescription="@string/logo_img"
+        app:layout_constraintBottom_toTopOf="@+id/load_image_btn"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/camonsketch_logo"
-        android:contentDescription="@string/logo_img" />
+        app:layout_constraintVertical_bias="0.118"
+        app:srcCompat="@drawable/camonsketch_logo" />
 
     <TextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginBottom="16dp"
         android:text="@string/developers"
+        android:paddingRight="10dp"
+        android:paddingBottom="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
