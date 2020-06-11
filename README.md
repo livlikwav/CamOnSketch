@@ -1,5 +1,7 @@
 ![logo_camonsketch](https://user-images.githubusercontent.com/44190293/82134943-5501e700-9838-11ea-9407-3e0779b36ef1.png)
 
+![image](https://user-images.githubusercontent.com/44190293/84373681-e128e380-ac17-11ea-8659-6e1d4c5f3cd1.png)
+
 #  CamOnSketch
 
 2020-01 컴퓨터과학종합설계 프로젝트 : 위치기반 촬영 가이드 어플
